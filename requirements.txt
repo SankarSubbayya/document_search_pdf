@@ -1,0 +1,85 @@
+# Core dependencies for PDF Document Search System
+# Install with: pip install -r requirements.txt
+
+# Core application
+streamlit>=1.28.0
+pandas>=2.0.0
+numpy>=1.24.0
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# Vector database and embeddings
+qdrant-client>=1.7.0
+sentence-transformers>=2.2.0
+
+# PDF processing - Essential
+pypdf>=3.17.0
+PyPDF2>=3.0.0
+pdfplumber>=0.10.3
+pdf2image>=1.16.3
+
+# OCR support
+pytesseract>=0.3.10
+pillow>=10.0.0
+
+# Document processing
+python-docx>=1.0.0
+openpyxl>=3.1.2
+python-pptx>=0.6.21
+ebooklib>=0.18
+beautifulsoup4>=4.12.0
+html2text>=2020.1.16
+docling>=2.55.1
+
+# Visualization
+plotly>=5.17.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Database
+sqlalchemy>=2.0.0
+alembic>=1.12.0
+
+# LLM and AI
+openai>=1.0.0
+tiktoken>=0.5.0
+langchain>=0.1.0
+langchain-community>=0.0.10
+
+# Data processing
+scikit-learn>=1.3.0
+scipy>=1.11.0
+chonkie>=1.3.1
+
+# Utilities
+click>=8.1.0
+rich>=13.0.0
+tqdm>=4.65.0
+python-dateutil>=2.8.2
+kagglehub>=0.1.0
+
+# API and web (optional but useful)
+fastapi>=0.104.0
+uvicorn>=0.24.0
+httpx>=0.25.0
+aiofiles>=23.2.1
+
+# Optional: Advanced PDF processing
+# Uncomment if needed:
+# pymupdf>=1.23.0  # For advanced PDF extraction
+# camelot-py>=0.11.0  # For table extraction
+# tabula-py>=2.8.0  # Alternative table extraction
+
+# Optional: Development dependencies
+# pytest>=7.4.0
+# pytest-cov>=4.1.0
+# pytest-asyncio>=0.21.0
+# black>=23.0.0
+# isort>=5.12.0
+# flake8>=6.0.0
+# mypy>=1.5.0
+# pre-commit>=3.5.0
+# ipython>=8.16.0
+# jupyter>=1.0.0
+# notebook>=7.0.0
+

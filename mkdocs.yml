@@ -1,0 +1,129 @@
+site_name: Document Search RAG
+site_description: A simple tutorial for Retrieval Augmented Generation with document search
+site_author: Your Name
+site_url: https://yourusername.github.io/document_search
+
+repo_name: document_search
+repo_url: https://github.com/yourusername/document_search
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  language: en
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_object_full_path: false
+            show_category_heading: true
+            members_order: source
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.mark
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+
+  - Getting Started:
+    - How to Run: getting-started/how-to-run.md
+    - Installation: getting-started/installation.md
+    - Load PubMed Index: getting-started/load-pubmed-index.md
+    - Install Tesseract: getting-started/install-tesseract.md
+    - Qdrant Local Guide: QDRANT_LOCAL_GUIDE.md
+    - Qdrant Quick Start: QDRANT_QUICK_START.md
+
+  - User Guide:
+    - PDF Manager: user-guide/pdf-manager.md
+    - Streamlit Apps: user-guide/streamlit-apps.md
+    - Search Features: user-guide/search-features.md
+    - New UI Layout: user-guide/new-layout.md
+
+  - Architecture:
+    - System Architecture: architecture/system-architecture.md
+    - Base RAG System: architecture/base-rag.md
+    - Enhanced RAG System: architecture/enhanced-rag.md
+    - Project Structure: PROJECT_STRUCTURE.md
+    - File Documentation: FILE_DOCUMENTATION.md
+
+  - Development:
+    - Testing Guide: development/testing.md
+    - Testing with UV: development/testing-with-uv.md
+    - MkDocs Guide: development/mkdocs-guide.md
+    - Cleanup Summary: development/cleanup-summary.md
+    - Setup Complete: SETUP_COMPLETE.md
+
+  - Troubleshooting:
+    - Fix Summary: troubleshooting/fix-summary.md
+    - Fixes Summary: troubleshooting/fixes-summary.md
+    - Unused Code Report: UNUSED_CODE_REPORT.md
+
+  - About:
+    - README: README.md
+    - Enhanced Features: README_ENHANCED.md
+    - Contributing: about/contributing.md
+    - License: about/license.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/document-search-rag/
+
+copyright: Copyright &copy; 2025 Your Name
+

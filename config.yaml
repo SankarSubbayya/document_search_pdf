@@ -1,0 +1,312 @@
+# Document Search RAG System Configuration
+
+# Data paths configuration
+paths:
+  # Base data directory for all data storage
+  data_dir: ./data
+
+  # Subdirectories for different data types
+  documents:
+    input: /Users/sankar/sankar/Books         # Raw documents to process
+    processed: /Users/sankar/sankar/courses/llm/data/books/processed       # Processed document outputs
+    uploads: ./data/uploads          # Uploaded documents
+    archive: ./data/archive          # Archived documents
+
+  # Database paths
+  database:
+    sqlite: ./data/documents.db      # SQLite database path
+    backup: ./data/backups           # Database backups
+
+  # Vector store paths
+  vector_store:
+    qdrant: ./qdrant_db              # Qdrant local storage
+    embeddings_cache: ./data/embeddings  # Cached embeddings
+
+  # Logs and temporary files
+  logs: ./logs                       # Application logs
+  temp: ./data/temp                  # Temporary processing files
+
+  # Dataset paths
+  datasets:
+    pubmed_200k_rct: /Users/sankar/sankar/courses/llm/data/pubmed/raw  # PubMed 200k RCT dataset
+
+# Document processing settings
+processing:
+  # Supported document formats
+  supported_formats:
+    - .pdf
+    - .docx
+    - .txt
+    - .md
+    - .html
+    - .epub
+    - .pptx
+
+  # Chunking configuration
+  chunking:
+    strategy: semantic               # semantic or token
+    chunk_size: 512
+    chunk_overlap: 50
+    min_chunk_size: 100
+    max_chunk_size: 1000
+
+  # Batch processing
+  batch:
+    size: 50
+    max_workers: 4
+    timeout_seconds: 300
+
+  # File handling
+  max_file_size_mb: 100
+  skip_hidden_files: true
+  preserve_structure: true
+
+# Storage configuration
+storage:
+  # Database settings
+  database:
+    type: sqlite                     # sqlite or postgresql
+    connection_pool_size: 5
+    echo_sql: false
+
+  # PostgreSQL settings (if using PostgreSQL)
+  postgresql:
+    host: localhost
+    port: 5432
+    database: documents
+    schema: public
+    ssl_mode: prefer
+
+  # Vector store settings
+  vector_store:
+    type: qdrant                     # qdrant, weaviate, or pinecone
+    collection_name: documents
+
+  # Qdrant settings
+  qdrant:
+    host: localhost
+    port: 6333
+    grpc_port: 6334
+    prefer_grpc: false
+    https: false
+    api_key: null
+    prefix: null
+    timeout: null
+    recreate_collection: false
+
+# Embedding configuration
+embeddings:
+  model: sentence-transformers/all-MiniLM-L6-v2
+  device: cpu                        # cpu, cuda, or mps
+  batch_size: 32
+  normalize: true
+  show_progress_bar: true
+  cache_embeddings: true
+
+  # Model-specific settings
+  models:
+    all-MiniLM-L6-v2:
+      dimensions: 384
+      max_seq_length: 512
+    all-mpnet-base-v2:
+      dimensions: 768
+      max_seq_length: 512
+
+# LLM configuration
+llm:
+  provider: openai                   # openai, anthropic, or local
+
+  # OpenAI settings
+  openai:
+    model: gpt-4
+    api_base: https://api.openai.com/v1
+    api_version: null
+    temperature: 0.7
+    max_tokens: 500
+    top_p: 1.0
+    frequency_penalty: 0
+    presence_penalty: 0
+    timeout: 30
+    max_retries: 3
+
+  # Generation settings
+  generation:
+    system_prompt: |
+      You are a helpful AI assistant with access to a document knowledge base.
+      Provide accurate, detailed answers based on the retrieved context.
+      Always cite your sources when providing information.
+    include_sources: true
+    max_context_length: 3000
+    answer_format: markdown
+
+# Search and retrieval settings
+retrieval:
+  # Search parameters
+  search:
+    default_top_k: 5
+    max_top_k: 20
+    score_threshold: 0.5
+    rerank: true
+    diversity_threshold: 0.8
+
+  # Reranking settings
+  reranking:
+    enabled: true
+    model: cross-encoder/ms-marco-MiniLM-L-12-v2
+    top_k_multiplier: 2
+
+  # Filtering options
+  filters:
+    enable_category_filter: true
+    enable_date_filter: true
+    enable_file_type_filter: true
+    enable_metadata_filter: true
+
+# Application settings
+app:
+  name: Document Search RAG
+  version: 1.0.0
+  environment: development           # development, staging, or production
+  debug: false
+
+  # API settings
+  api:
+    enabled: false
+    host: 0.0.0.0
+    port: 8000
+    cors_origins:
+      - http://localhost:3000
+      - http://localhost:8000
+
+  # CLI settings
+  cli:
+    colored_output: true
+    show_progress_bars: true
+    verbose: false
+    confirm_destructive: true
+
+  # Cache settings
+  cache:
+    enabled: true
+    ttl_seconds: 3600
+    max_size_mb: 500
+    clear_on_startup: false
+
+# Logging configuration
+logging:
+  level: INFO                        # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file:
+    enabled: true
+    path: ./logs/app.log
+    max_size_mb: 10
+    backup_count: 5
+    rotation: daily
+  console:
+    enabled: true
+    colored: true
+
+  # Module-specific logging levels
+  modules:
+    src.processing: INFO
+    src.storage: INFO
+    src.retrieval: INFO
+    qdrant_client: WARNING
+    sentence_transformers: WARNING
+    openai: WARNING
+
+# Performance optimization
+performance:
+  # Memory management
+  memory:
+    max_memory_gb: 8
+    clear_cache_interval: 1000
+    gc_threshold: 0.8
+
+  # Parallel processing
+  parallel:
+    enabled: true
+    max_workers: 4
+    chunk_size: 10
+
+  # Caching strategies
+  caching:
+    embeddings: true
+    search_results: true
+    llm_responses: false
+
+# Security settings
+security:
+  # API security
+  api_key_required: false
+  api_key_header: X-API-Key
+
+  # File security
+  allowed_file_types:
+    - application/pdf
+    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    - text/plain
+    - text/markdown
+    - text/html
+
+  max_upload_size_mb: 100
+  scan_for_malware: false
+
+  # Data privacy
+  pii_detection: false
+  encryption_at_rest: false
+  audit_logging: true
+
+# Monitoring and metrics
+monitoring:
+  enabled: false
+
+  # Metrics collection
+  metrics:
+    collect_performance: true
+    collect_usage: true
+    collect_errors: true
+
+  # Alerting
+  alerts:
+    enabled: false
+    email_notifications: false
+    slack_notifications: false
+
+  # Health checks
+  health_check:
+    enabled: true
+    interval_seconds: 60
+    timeout_seconds: 10
+
+# Kaggle configuration
+kaggle:
+  # Kaggle API credentials (optional - can use environment variables instead)
+  # username: your_kaggle_username
+  # api_key: your_kaggle_api_key
+
+  # Dataset settings
+  datasets:
+    pubmed_200k_rct:
+      name: mathewjoseph/pubmed-200k-rct
+      auto_download: false
+      extract_on_download: true
+
+# Development settings
+development:
+  # Test data
+  test_data:
+    path: ./test_documents
+    auto_index: true
+
+  # Debugging
+  debug:
+    save_intermediate_results: true
+    log_sql_queries: false
+    profile_performance: false
+
+  # Mock services
+  mock:
+    use_mock_llm: false
+    use_mock_embeddings: false
+    use_mock_vector_store: false

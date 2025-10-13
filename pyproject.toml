@@ -1,0 +1,155 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "document-search-rag"
+version = "0.1.0"
+description = "A simple RAG (Retrieval Augmented Generation) tutorial for document search"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+dependencies = [
+    # Core dependencies
+    "streamlit>=1.28.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0",
+    # Vector database and embeddings
+    "qdrant-client>=1.7.0",
+    "sentence-transformers>=2.2.0",
+    # PDF processing - Essential
+    "pypdf>=3.17.0",
+    "pypdf2>=3.0.1",
+    "pdfplumber>=0.10.3",
+    "pdf2image>=1.16.3",
+    # OCR support
+    "pytesseract>=0.3.10",
+    "pillow>=10.0.0",
+    # Document processing
+    "python-docx>=1.0.0",
+    "openpyxl>=3.1.2",
+    "python-pptx>=0.6.21",
+    "ebooklib>=0.18",
+    "beautifulsoup4>=4.12.0",
+    "html2text>=2020.1.16",
+    "docling>=2.55.1",
+    # Visualization
+    "plotly>=5.17.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    # Database
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.12.0",
+    # LLM and AI
+    "openai>=1.0.0",
+    "tiktoken>=0.5.0",
+    "langchain>=0.1.0",
+    "langchain-community>=0.0.10",
+    # Data processing
+    "scikit-learn>=1.3.0",
+    "scipy>=1.11.0",
+    "chonkie>=1.3.1",
+    # Utilities
+    "click>=8.1.0",
+    "rich>=13.0.0",
+    "tqdm>=4.65.0",
+    "python-dateutil>=2.8.2",
+    "kagglehub>=0.1.0",
+    # API and web (optional but useful)
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "httpx>=0.25.0",
+    "aiofiles>=23.2.1",
+    "pytest>=8.4.2",
+    "tesseract>=0.1.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.5.0",
+    "ipython>=8.16.0",
+    "jupyter>=1.0.0",
+    "notebook>=7.0.0",
+]
+
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.24.0",
+]
+
+# Advanced PDF processing (optional)
+pdf-advanced = [
+    "pymupdf>=1.23.0",  # PyMuPDF for advanced extraction
+    "camelot-py>=0.11.0",  # Table extraction
+    "tabula-py>=2.8.0",  # Alternative table extraction
+]
+
+# Machine learning extras (optional)
+ml-extras = [
+    "transformers>=4.35.0",
+    "torch>=2.1.0",
+    "accelerate>=0.24.0",
+]
+
+# Database extras (optional)
+db-extras = [
+    "psycopg2-binary>=2.9.9",  # PostgreSQL
+    "pymongo>=4.5.0",  # MongoDB
+    "redis>=5.0.0",  # Redis caching
+]
+
+[project.scripts]
+document-search = "src.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+    "--cov=src",
+    "--cov=pdf_manager_app",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "e2e: End-to-end tests",
+    "slow: Slow tests",
+    "requires_qdrant: Tests that require Qdrant connection",
+]

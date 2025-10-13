@@ -1,0 +1,102 @@
+# PDF Document Manager Configuration
+
+# Collection Settings
+vector_store:
+  collection_name: pdf_documents  # Separate collection for PDFs only
+  host: localhost
+  port: 6333
+  vector_size: 384
+  distance_metric: cosine
+
+# Document Processing
+processing:
+  # Chunking settings
+  chunking:
+    default_size: 512
+    min_size: 100
+    max_size: 2000
+    default_overlap: 50
+    max_overlap: 200
+
+  # PDF extraction
+  pdf:
+    use_ocr: true
+    ocr_language: eng
+    extract_tables: true
+    extract_images: false
+    dpi: 300
+
+  # Extraction methods priority
+  extraction_priority:
+    - pdfplumber
+    - pypdf2
+    - pymupdf
+    - ocr
+
+# Storage
+storage:
+  upload_dir: ./data/pdf_uploads
+  max_file_size_mb: 100
+  keep_originals: true
+  backup_dir: ./data/pdf_backups
+
+# Categories
+categories:
+  - general
+  - research
+  - documentation
+  - legal
+  - financial
+  - technical
+  - educational
+  - medical
+  - other
+
+# Embedding Model
+embedding:
+  model: sentence-transformers/all-MiniLM-L6-v2
+  batch_size: 32
+  normalize: true
+  device: cpu  # cpu, cuda, or mps
+
+# Search Settings
+search:
+  default_limit: 10
+  max_limit: 100
+  default_threshold: 0.0
+  hnsw_ef: 128
+
+# UI Settings
+ui:
+  results_per_page: 10
+  expand_first_n_results: 3
+  show_position_info: true
+  enable_analytics: true
+
+# Document Management
+management:
+  allow_delete: true
+  allow_bulk_operations: true
+  auto_backup: false
+  versioning: false
+
+# Performance
+performance:
+  batch_upload_size: 100
+  max_concurrent_processing: 4
+  cache_embeddings: true
+
+# Security
+security:
+  allowed_file_extensions:
+    - .pdf
+  scan_for_malware: false
+  max_upload_size_mb: 100
+  rate_limiting: false
+
+# Logging
+logging:
+  level: INFO
+  file: ./logs/pdf_manager.log
+  rotate_size_mb: 10
+  backup_count: 5
