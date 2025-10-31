@@ -128,6 +128,7 @@ streamlit run apps/streamlit_pubmed_app.py
 - **[Document Cleaning Guide](docs/DOCUMENT_CLEANING_GUIDE.md)** - Clean documents
 - **[Search Features](docs/user-guide/search-features.md)** - Advanced search
 - **[PDF Manager](docs/user-guide/pdf-manager.md)** - Document management
+- **[Streamlit Apps](docs/user-guide/streamlit-apps.md)** - Application overview
 
 ### Utilities & Tools
 - **[View Qdrant Database](view_qdrant.py)** - Inspect indexed documents
@@ -141,7 +142,8 @@ streamlit run apps/streamlit_pubmed_app.py
 
 ### Troubleshooting
 - **[Troubleshooting Guide](docs/troubleshooting/fixes-summary.md)** - Common issues
-- **[Qdrant Guide](docs/QDRANT_QUICK_START.md)** - Qdrant setup help
+- **[Qdrant Quick Start](docs/QDRANT_QUICK_START.md)** - Qdrant setup help
+- **[Connection Troubleshooting](docs/TROUBLESHOOT_CONNECTION.md)** - Connection issues
 
 ---
 
