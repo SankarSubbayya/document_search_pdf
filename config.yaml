@@ -41,14 +41,43 @@ processing:
     - .html
     - .epub
     - .pptx
+  
+  # Document cleaning (remove TOC, acknowledgements, etc.)
+  cleaning:
+    enabled: true                # Clean documents before chunking
+    remove_toc: true             # Remove table of contents
+    remove_acknowledgements: true  # Remove acknowledgements section
+    remove_references: false     # Keep references/bibliography
+    remove_appendices: false     # Keep appendices
+    smart_cleaning: true         # Use smart detection for better results
 
   # Chunking configuration
   chunking:
-    strategy: semantic               # semantic or token
-    chunk_size: 512
+    strategy: markup_semantic_context  # Options: semantic, token, markup, context, late, markup_semantic_context
+    chunk_size: 256
     chunk_overlap: 50
     min_chunk_size: 100
     max_chunk_size: 1000
+    
+    # Markup chunking settings (for structured documents)
+    markup:
+      enabled: false
+      preserve_hierarchy: true       # Include section hierarchy in metadata
+      document_type: markdown        # markdown, html, or generic
+    
+    # Context chunking settings (adds surrounding context)
+    context:
+      enabled: false
+      context_window: 2              # Number of chunks before/after to include
+      overlap_size: 100              # Size of context overlap
+    
+    # Late chunking settings (embeddings computed first)
+    late:
+      enabled: false
+      compute_contextual: true       # Blend chunk + document embeddings
+      use_sliding_window: false      # Use sliding context window
+      context_window_size: 3         # Window size for sliding context
+      max_context_length: 8192       # Max tokens for document embedding
 
   # Batch processing
   batch:

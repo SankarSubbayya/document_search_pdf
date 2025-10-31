@@ -25,6 +25,12 @@ from chonkie.embeddings import SentenceTransformerEmbeddings
 import numpy as np
 from tqdm import tqdm
 
+try:
+    from .document_cleaner import clean_document
+    CLEANER_AVAILABLE = True
+except ImportError:
+    CLEANER_AVAILABLE = False
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -63,7 +69,11 @@ class DocumentProcessor:
         chunk_size: int = 512,
         chunk_overlap: int = 50,
         use_semantic_chunking: bool = True,
-        embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
+        embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2",
+        clean_documents: bool = True,
+        remove_toc: bool = True,
+        remove_acknowledgements: bool = True,
+        remove_references: bool = False
     ):
         """
         Initialize the document processor.
@@ -73,10 +83,21 @@ class DocumentProcessor:
             chunk_overlap: Overlap between chunks
             use_semantic_chunking: Use semantic chunking vs token-based
             embedding_model: Model for semantic chunking
+            clean_documents: Clean documents before chunking (remove TOC, etc.)
+            remove_toc: Remove table of contents
+            remove_acknowledgements: Remove acknowledgements section
+            remove_references: Remove references/bibliography
         """
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         self.use_semantic_chunking = use_semantic_chunking
+        self.clean_documents = clean_documents and CLEANER_AVAILABLE
+        self.remove_toc = remove_toc
+        self.remove_acknowledgements = remove_acknowledgements
+        self.remove_references = remove_references
+        
+        if clean_documents and not CLEANER_AVAILABLE:
+            logger.warning("Document cleaner not available. Install document_cleaner module.")
 
         # Initialize docling converter
         self.converter = DocumentConverter(
@@ -153,6 +174,20 @@ class DocumentProcessor:
 
         # Extract main text content
         full_text = doc.export_to_text()
+        
+        # Clean the text if enabled
+        cleaning_stats = None
+        if self.clean_documents and full_text.strip():
+            logger.info("Cleaning document (removing TOC, acknowledgements, etc.)...")
+            full_text, cleaning_stats = clean_document(
+                full_text,
+                remove_toc=self.remove_toc,
+                remove_acknowledgements=self.remove_acknowledgements,
+                remove_references=self.remove_references,
+                smart_cleaning=True,
+                verbose=False
+            )
+            logger.info(f"Removed {cleaning_stats.reduction_percentage:.1f}% of content")
 
         # Extract tables
         tables = []
@@ -186,6 +221,12 @@ class DocumentProcessor:
             'creation_date': getattr(doc, 'creation_date', None),
             **(additional_metadata or {})
         }
+        
+        # Add cleaning stats to metadata if available
+        if cleaning_stats:
+            metadata['cleaned'] = True
+            metadata['content_removed_pct'] = round(cleaning_stats.reduction_percentage, 2)
+            metadata['sections_removed'] = cleaning_stats.sections_removed
 
         # Chunk the document
         chunks = self._chunk_document(full_text, metadata)
