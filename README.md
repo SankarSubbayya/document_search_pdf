@@ -118,9 +118,9 @@ streamlit run apps/streamlit_pubmed_app.py
 ## 📖 Documentation
 
 ### Getting Started
-- **[Quick Start Guide](docs/getting-started/QUICK_START.md)** - 5-minute setup
-- **[Installation Guide](docs/getting-started/installation.md)** - Detailed installation
-- **[How to Run](docs/getting-started/how-to-run.md)** - Running applications
+- **[Quick Start Guide](docs/QUICK_START.md)** - 5-minute setup
+- **[Installation Guide](docs/INSTALLATION_CHUNKING.md)** - Detailed installation
+- **[How to Run](docs/RUN_ENHANCED_APP.md)** - Running applications
 
 ### User Guides
 - **[Batch Upload Guide](docs/BATCH_UPLOAD_GUIDE.md)** - Upload multiple files
